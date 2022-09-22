@@ -9,7 +9,6 @@ const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://prodManagement1:jJg4x3Ns8wCk6HCN@cluster0.aruppvu.mongodb.net/?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
-// Check Connection and error 
 // client.connect(err => {
 //   const collection = client.db("test").collection("devices");
 //   // perform actions on the collection object
@@ -23,34 +22,27 @@ async function run() {
     const database = client.db("productDB");
     const productCollection = database.collection("products");
 
-    //*. create a document to test insert--
+    // --create a document to test insert--
     // const productTest = {
     //   prodTitle: 'Mobile', 
     //   uom: 'Pcs',
-    //   color: 'Green', 
+    //   color: 'Green',
     //   price: '79000',
     //   stock: 19
     // }
     // const result = await productCollection.insertOne(productTest);
     // console.log(`A document was inserted with the _id: ${result.insertedId}`);
 
-
-    //1. POST API (insert a single product)
-
-
-    //2. POST API (insert a collection of products)
+    //POST API
 
 
-    //3. GET API (get all products)
+    //GET API (get all)
 
 
-    //4. GET API (get single product by id)
+    //GET API (get single user by id)
 
 
-    //5. DELETE API (delete single product by id)
-
-
-    //6. DELETE API (delete all products)
+    //DELETE API
 
 
   } finally {
@@ -58,6 +50,7 @@ async function run() {
   }
 }
 run().catch(console.dir);
+
 
 
 app.get('/', (req, res) => {
