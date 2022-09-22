@@ -16,31 +16,35 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 // });
 
 
-//CHECK CONNECTION API
+//INSERT API
 async function run() {
   try {
     const database = client.db("productDB");
     const productCollection = database.collection("products");
     // create a document to insert
+    // const doc = {
+    //   title: "Record of a Shriveled Datum",
+    //   content: "No bytes, no problem. Just insert a document, in MongoDB",
+    // }
     const productTest = {
-      prodTitle: 'Mobile', 
+      prodTitle: 'Laptop', 
       uom: 'Pcs',
-      color: 'Green',
-      price: '79000',
-      stock: 19
+      color: 'Black',
+      price: '57000',
+      stock: 13
     }
     const result = await productCollection.insertOne(productTest);
 
     console.log(`A document was inserted with the _id: ${result.insertedId}`);
   } finally {
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-  res.send('Hello, Curel World!');
+  res.send('Hello World!');
 })
 
 app.listen(port, () => {
