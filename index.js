@@ -66,7 +66,14 @@ async function run() {
     })
 
     //4. GET API (get single product by id)
+    app.get('/products/:id', async(req, res) =>{
+      const id = req.params.id;
+      const query = {_id: ObjectId(id)};
+      const product = await productCollection.findOne(query);
 
+      console.log('Loaded Product with ID', id);
+      res.send(product);
+    })
 
     //5. DELETE API (delete single product by id)
     app.delete('/products/:id', async(req, res) =>{
@@ -80,6 +87,29 @@ async function run() {
     })
 
     //6. DELETE API (delete all products)
+
+
+    //7. UPDATE API (update single product by id)
+    app.put('/products:id', async(req, res)=>{
+      const id = req.params.id;
+      const updatedProduct = req.body;
+      const filter = {_id: ObjectId(id)};
+      const options = {upsert: true}; //update+insert = upsert
+      const updateDoc = {
+        $set: {
+          prodTitle: updatedProduct.prodTitle, 
+          uom: updatedProduct.uom, 
+          color: updatedProduct.color, 
+          price: updatedProduct.price, 
+          stock: updatedProduct.stock
+        }
+      }
+      const result = await productCollection.updateOne(filter, updateDoc, options);
+      console.log('Updated Product', req);
+      res.json(result);
+    })
+
+    //8. UPDATE API (update all products)
 
 
   } finally {
