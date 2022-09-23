@@ -2,8 +2,14 @@ const express = require('express');
 const app = express();
 const port = 3001;
 
+const cors = require('cors');
+
 //user: prodManagement1
 //pass: jJg4x3Ns8wCk6HCN
+
+//middleware
+app.use(cors());
+app.use(express.json());
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://prodManagement1:jJg4x3Ns8wCk6HCN@cluster0.aruppvu.mongodb.net/?retryWrites=true&w=majority";
@@ -36,13 +42,26 @@ async function run() {
 
 
     //1. POST API (insert a single product)
+    app.post('/products', async(req, res) => {
+      const newProduct = req.body;
+      const result = await productCollection.insertOne(newProduct);
 
+      console.log('Got New Product', newProduct);
+      console.log('Added New Product', result);
+
+      res.json(result);
+    })
 
     //2. POST API (insert a collection of products)
 
 
     //3. GET API (get all products)
-
+    app.get('/products', async(req, res) =>{
+      const entryPoint = productCollection.find({});
+      const products = await entryPoint.toArray();
+      
+      res.send(products);
+    })
 
     //4. GET API (get single product by id)
 
@@ -54,7 +73,7 @@ async function run() {
 
 
   } finally {
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
