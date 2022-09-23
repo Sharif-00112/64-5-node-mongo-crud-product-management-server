@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const port = 3001;
 
+const ObjectId = require('mongodb').ObjectId;
+
 const cors = require('cors');
 
 //user: prodManagement1
@@ -59,7 +61,7 @@ async function run() {
     app.get('/products', async(req, res) =>{
       const entryPoint = productCollection.find({});
       const products = await entryPoint.toArray();
-      
+
       res.send(products);
     })
 
@@ -67,7 +69,15 @@ async function run() {
 
 
     //5. DELETE API (delete single product by id)
+    app.delete('/products/:id', async(req, res) =>{
+      const id = req.params.id;
+      const query = {_id: ObjectId(id)};
+      const result = await productCollection.deleteOne(query);
 
+      console.log('deleting product with id: ', result);
+
+      res.json(result);
+    })
 
     //6. DELETE API (delete all products)
 
